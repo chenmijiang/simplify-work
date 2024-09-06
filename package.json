@@ -1,0 +1,27 @@
+{
+  "name": "simple-work",
+  "version": "1.0.0",
+  "description": "simplify work progress",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky",
+    "dev": "bun ./index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "devDependencies": {
+    "@inquirer/prompts": "^5.4.0",
+    "bun": "^1.1.26",
+    "bun-types": "^1.1.26",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4"
+  }
+}
