@@ -4,13 +4,12 @@
  * 3. 本地开发分支命名规则：sprint-(随机16位数字字符串+日期)-(可选，自定义分支名称)
  * 4. 本地开发分支创建后，自动切换到该分支
  */
-import { confirm, input } from "@inquirer/prompts";
+import { confirm, input, select } from "@inquirer/prompts";
 import {
-  checkBranchAndUncommittedChanges,
   checkGitInstallation,
-  checkRemoteRepository,
+  checkUncommittedChanges,
   createAndSwitchBranch,
-} from "../helper/git";
+} from "helper/git";
 import { SW } from "types";
 
 /**
@@ -23,25 +22,48 @@ function generateBranchName(customName: string = ""): string {
   return `sprint-${randomDigits}${date}${customName ? `-${customName}` : ""}`;
 }
 
+/**
+ * 1. 检测 git 是否安装
+ * 3. 检测是否有未提交的代码，有则提示提交
+ * 4. 本地开发分支命名规则：sprint-(随机16位数字字符串+日期)-(可选，自定义分支名称)
+ * 5. 根据本地 master/main 分支创建新的开发分支，并切换到该分支
+ */
 const main: SW.ExecBashFunction = async () => {
+  // check git installation
   await checkGitInstallation();
-  await checkRemoteRepository();
-  await checkBranchAndUncommittedChanges();
+  // check uncommitted changes
+  await checkUncommittedChanges();
 
-  const customName = await input({
-    message: "Enter a custom name for the branch (optional):",
+  let isCreated = false;
+  let branchName = "";
+
+  while (!isCreated) {
+    const customName = await input({
+      message: "Enter a new branch for the branch (optional):",
+    });
+
+    branchName = generateBranchName(customName);
+    isCreated = await confirm({
+      message: `Create a new branch with the name: ${branchName} ?(Y/n)`,
+      default: true,
+    });
+  }
+  // 选择基线分支，select：main/master
+  const baseMaster = await select({
+    message: "Select a base branch to create a new branch:",
+    default: "main",
+    choices: [
+      { name: "main", value: "main" },
+      { name: "master", value: "master" },
+    ],
   });
-
-  const branchName = generateBranchName(customName.trim());
-  const answer = await confirm({
-    message: `Create a new branch with the name: ${branchName}?(Y/n)`,
+  // 是否拉取远程分支，默认是
+  const isPull = await confirm({
+    message: `Pull the latest '${baseMaster}' branch from the remote repository? (Y/n)`,
     default: true,
   });
-  if (!answer) {
-    process.exit(0);
-  }
-  await createAndSwitchBranch(branchName);
-  // todo: confirm whether to push the branch to the remote repository
+
+  await createAndSwitchBranch(branchName, baseMaster, isPull);
 };
 
 export default main;

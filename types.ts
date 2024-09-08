@@ -21,6 +21,11 @@ export declare namespace SW {
     type?: never;
   };
 
+  interface Option {
+    name: string;
+    value?: string | boolean;
+  }
+
   interface Operation<Value = any> {
     message: string;
     choices:
@@ -32,11 +37,52 @@ export declare namespace SW {
     theme?: PartialDeep<Theme<SelectTheme>> | undefined;
   }
 
+  interface CzCustomMessages {
+    type?: string;
+    scope?: string;
+    customScope?: string;
+    subject?: string;
+    body?: string;
+    breaking?: string;
+    footer?: string;
+    confirmCommit?: string;
+  }
+
+  interface CzCustomAnswers {
+    type: string;
+    scope?: string;
+    subject: string;
+    body?: string;
+    breaking?: string;
+    footer?: string;
+    confirmCommit?: string;
+  }
+
+  interface CzCustom<Value = any> {
+    types?:
+      | readonly (string | Separator)[]
+      | readonly (Separator | Choice<Value>)[];
+    scopes?:
+      | readonly (string | Separator)[]
+      | readonly (Separator | Choice<Value>)[];
+    messages?: CzCustomMessages;
+    allowBreakingChanges?: string[];
+    skipQuestions?: string[];
+    breakingPrefix?: string;
+    footerPrefix?: string;
+    subjectLimit?: number;
+    subjectSeparator?: string;
+    typePrefix?: string;
+    typeSuffix?: string;
+    breaklineChar?: string;
+  }
+
   /**
    * @description config
    */
   interface Config {
     operation: Operation;
+    "git-commit": CzCustom;
   }
   /**
    * @description execute function type
