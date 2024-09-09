@@ -1,6 +1,6 @@
 {
   "name": "simplify-work",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "simplify work progress",
   "type": "module",
   "main": "index.ts",
@@ -22,13 +22,14 @@
   "devDependencies": {
     "@types/find-config": "^1.0.4",
     "bun-types": "^1.1.26",
+    "esbuild": "^0.23.1",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "bun": "^1.1.26",
+    "bun": "^1.1.27",
     "@inquirer/prompts": "^5.4.0",
     "cz-customizable": "^7.2.1",
     "find-config": "^1.0.0",
