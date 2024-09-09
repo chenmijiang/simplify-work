@@ -1,4 +1,4 @@
-import { SW } from "types";
+import { SW } from "@/types";
 import formatCommitMessage from "./build-commit";
 
 interface Question {

@@ -1,6 +1,6 @@
 import { editor } from "@inquirer/prompts";
-import { commitChanges, hasStagedChanges } from "helper/git";
-import { SW } from "types";
+import { commitChanges, hasStagedChanges } from "@/helper/git";
+import { SW } from "@/types";
 import formatCommitMessage from "./build-commit";
 import { mergeCzCustomConfig } from "./mergeCzCustomConfig";
 import buildAndExecQuestions from "./questions";

@@ -1,9 +1,9 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
 import { select } from "@inquirer/prompts";
-import errorHandler from "helper/errorHandler";
+import errorHandler from "@/helper/errorHandler";
 
-import { getCustomConfig, mergeConfig } from "helper/config";
+import { getCustomConfig, mergeConfig } from "@/helper/config";
 import defaultConfig from ".sw-config";
 
 async function main() {
