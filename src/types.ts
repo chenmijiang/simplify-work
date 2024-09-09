@@ -26,7 +26,7 @@ export declare namespace SW {
     value?: string | boolean;
   }
 
-  interface Operation<Value = any> {
+  interface Operation<Value = string> {
     message: string;
     choices:
       | readonly (string | Separator)[]
