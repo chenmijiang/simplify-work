@@ -9,20 +9,28 @@ import { defineConfig } from "rollup";
 export default defineConfig([
   {
     input: "src/index.ts",
-    output: {
-      // file: "dist/index.esm.js",
-      dir: "dist",
-      format: "esm",
-      sourcemap: true,
-    },
+    output: [
+      {
+        dir: "dist/esm",
+        format: "esm",
+        sourcemap: true,
+      },
+      {
+        dir: "dist/cjs",
+        format: "cjs",
+        sourcemap: true,
+      },
+    ],
     plugins: [
       json(),
-      resolve(), // 先解析 node_modules
+      resolve(),
       commonjs({
-        ignoreDynamicRequires: false, // 允许解析动态 require
+        ignoreDynamicRequires: false,
       }),
-      dynamicImportVars(), // 解析动态导入
-      typescript(), // 将 TypeScript 转为 JavaScript
+      dynamicImportVars(),
+      typescript({
+        tsconfig: "./tsconfig.json",
+      }),
       babel({
         babelHelpers: "bundled",
         presets: ["@babel/preset-env"],
@@ -30,34 +38,4 @@ export default defineConfig([
       }),
     ],
   },
-  // {
-  //   input: "src/index.ts",
-  //   output: [
-  //     {
-  //       // file: "dist/index.esm.js",
-  //       dir: "dist/esm",
-  //       format: "esm",
-  //       sourcemap: true,
-  //     },
-  //     {
-  //       dir: "dist/cjs",
-  //       format: "cjs",
-  //       sourcemap: true,
-  //     },
-  //   ],
-  //   plugins: [
-  //     json(),
-  //     resolve(), // 先解析 node_modules
-  //     commonjs({
-  //       ignoreDynamicRequires: false, // 允许解析动态 require
-  //     }),
-  //     dynamicImportVars(), // 解析动态导入
-  //     typescript(), // 将 TypeScript 转为 JavaScript
-  //     babel({
-  //       babelHelpers: "bundled",
-  //       presets: ["@babel/preset-env"],
-  //       exclude: "node_modules/**",
-  //     }),
-  //   ],
-  // },
 ]);

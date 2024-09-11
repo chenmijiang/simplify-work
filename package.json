@@ -3,12 +3,11 @@
   "version": "0.0.1",
   "description": "simplify work progress",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "bin": {
-    "simplify-work": "dist/index.js",
-    "s-work": "dist/index.js"
+    "simplify-work": "dist/cjs/index.js",
+    "s-work": "dist/cjs/index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\"",

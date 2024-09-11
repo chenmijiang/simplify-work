@@ -4,7 +4,6 @@
     // "declarationMap": true,
     // "declarationDir": "./dist/types",
     "sourceMap": true,
-    "outDir": "./dist",
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "node",
@@ -16,6 +15,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", ".sw-config.ts"],
+  "include": ["src/**/*.ts", ".sw-config.ts", "rollup.config.ts"],
   "exclude": ["node_modules"]
 }
