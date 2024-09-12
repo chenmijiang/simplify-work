@@ -3,6 +3,3 @@ bun.lockb
 dist
 bin
 types
-
-.bun.lock
-*lock*
