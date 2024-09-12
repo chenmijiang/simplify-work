@@ -30,14 +30,6 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Set executable permissions
-        run: |
-          if [ -f ./bin/index.js ]; then
-            chmod +x ./bin/index.js
-          else
-            echo "File ./bin/index.js not found"
-          fi
-
       - name: Test
         run: npm test
 
