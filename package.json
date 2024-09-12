@@ -17,8 +17,7 @@
     "clean": "rimraf bin",
     "semantic-release": "semantic-release",
     "build": "rollup -c rollup.config.ts --configPlugin typescript",
-    "postinstall": "chmod +x bin/index.js",
-    "rebuild": "npm run clean && npm run build && npm run postinstall"
+    "rebuild": "npm run clean && npm run build"
   },
   "keywords": [],
   "author": "chenmijiang <jack.chenyuana@gmail.com>",
