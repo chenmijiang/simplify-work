@@ -3,3 +3,5 @@ bun.lockb
 dist
 bin
 types
+
+-lock.*
