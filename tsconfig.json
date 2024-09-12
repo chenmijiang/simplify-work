@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
+    "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./",
     "paths": {
-      "*": ["*"]
-    },
-    "types": ["bun-types"]
-  }
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*", "types/**/*", ".sw-config.ts", "rollup.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }

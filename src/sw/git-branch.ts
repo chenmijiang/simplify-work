@@ -9,8 +9,8 @@ import {
   checkGitInstallation,
   checkUncommittedChanges,
   createAndSwitchBranch,
-} from "helper/git";
-import { SW } from "types";
+} from "@/helper/git";
+import SW from "@/types";
 
 /**
  * generateBranchName

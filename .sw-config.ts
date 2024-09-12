@@ -1,33 +1,33 @@
-import { SW } from "./types";
+import SW from "./src/types";
 
 const config: SW.Config = {
   operation: {
     message: "请选择你的操作",
-    default: "sw/init",
+    default: "init",
     choices: [
       {
         name: "初始化开发环境",
-        value: "sw/init",
+        value: "init",
         description: "安装依赖、初始化 git 仓库、创建开发分支",
       },
       {
         name: "创建新需求分支",
-        value: "sw/git-branch",
+        value: "git-branch",
         description: "基于基线分支创建开发分支",
       },
       {
         name: "git commit 你的代码",
-        value: "sw/git-commit",
+        value: "git-commit",
         description: "采用 cz-customizable 规范 git commit",
       },
       {
         name: "deploy 你的代码",
-        value: "sw/git-deploy",
+        value: "git-deploy",
         description: "简化 git pull/merge/push/tag 操作",
       },
       {
         name: "创建新插件",
-        value: "sw/new-plugin",
+        value: "new-plugin",
         description: "创建新的插件",
       },
     ],
@@ -75,21 +75,7 @@ const config: SW.Config = {
       footer: "请输入要关闭的issue(可选)。例:#31，#34:",
       confirmCommit: "您确定要继续执行上面的提交吗?",
     },
-    scopes: [
-      { name: "user", value: "user" },
-      { name: "login", value: "login" },
-      { name: "home", value: "home" },
-      { name: "order", value: "order" },
-      { name: "product", value: "product" },
-      { name: "cart", value: "cart" },
-      { name: "address", value: "address" },
-      { name: "pay", value: "pay" },
-      { name: "coupon", value: "coupon" },
-      { name: "search", value: "search" },
-      { name: "category", value: "category" },
-      { name: "detail", value: "detail" },
-      { name: "other", value: "other" },
-    ],
+    scopes: [{ name: "other", value: "other" }],
     skipQuestions: [],
     allowBreakingChanges: ["feat", "fix"],
     subjectLimit: 100,

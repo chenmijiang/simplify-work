@@ -1,4 +1,4 @@
-import { execPromise } from "./utils";
+import { execPromise } from "./commons";
 
 // 检测 git 是否安装
 export async function checkGitInstallation() {

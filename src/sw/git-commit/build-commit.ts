@@ -1,4 +1,4 @@
-import { SW } from "types";
+import SW from "@/types";
 import wrap from "word-wrap";
 
 type Config = SW.CzCustom;

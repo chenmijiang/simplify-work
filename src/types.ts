@@ -1,8 +1,8 @@
 import { Separator, type Theme } from "@inquirer/core";
 import type { PartialDeep } from "@inquirer/type";
 
-export declare namespace SW {
-  type SelectTheme = {
+namespace SW {
+  export type SelectTheme = {
     icon: {
       cursor: string;
     };
@@ -12,7 +12,7 @@ export declare namespace SW {
     };
     helpMode: "always" | "never" | "auto";
   };
-  type Choice<Value> = {
+  export type Choice<Value> = {
     value: Value;
     name?: string;
     description?: string;
@@ -21,12 +21,12 @@ export declare namespace SW {
     type?: never;
   };
 
-  interface Option {
+  export interface Option {
     name: string;
     value?: string | boolean;
   }
 
-  interface Operation<Value = any> {
+  export interface Operation<Value = string> {
     message: string;
     choices:
       | readonly (string | Separator)[]
@@ -37,7 +37,7 @@ export declare namespace SW {
     theme?: PartialDeep<Theme<SelectTheme>> | undefined;
   }
 
-  interface CzCustomMessages {
+  export interface CzCustomMessages {
     type?: string;
     scope?: string;
     customScope?: string;
@@ -48,7 +48,7 @@ export declare namespace SW {
     confirmCommit?: string;
   }
 
-  interface CzCustomAnswers {
+  export interface CzCustomAnswers {
     type: string;
     scope?: string;
     subject: string;
@@ -58,7 +58,7 @@ export declare namespace SW {
     confirmCommit?: string;
   }
 
-  interface CzCustom<Value = any> {
+  export interface CzCustom<Value = any> {
     types?:
       | readonly (string | Separator)[]
       | readonly (Separator | Choice<Value>)[];
@@ -80,12 +80,14 @@ export declare namespace SW {
   /**
    * @description config
    */
-  interface Config {
+  export interface Config {
     operation: Operation;
     "git-commit": CzCustom;
   }
   /**
    * @description execute function type
    */
-  type ExecBashFunction = (config?: Config) => Promise<void>;
+  export type ExecBashFunction = (config?: Config) => Promise<void>;
 }
+
+export default SW;
