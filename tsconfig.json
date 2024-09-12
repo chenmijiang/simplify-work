@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "sourceMap": true,
-    "outDir": "./dist",
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "node",
@@ -14,6 +11,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "types/**/*", ".sw-config.ts", "rollup.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }

@@ -2,18 +2,22 @@
   "name": "simplify-work",
   "version": "0.0.1",
   "description": "simplify work progress",
-  "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
-  "types": "dist/index.d.ts",
+  "main": "bin/index.js",
   "bin": {
-    "simplify-work": "dist/index.js",
-    "s-work": "dist/index.js"
+    "simplify-work": "bin/index.js",
+    "s-work": "bin/index.js"
   },
+  "files": [
+    "bin/"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\"",
+    "test": "echo \"no test specified\"",
     "prepare": "husky",
-    "dev": "bun ./src/index.ts"
+    "dev": "bun ./src/index.ts",
+    "clean": "rimraf bin",
+    "build": "rollup -c rollup.config.ts --configPlugin typescript",
+    "postinstall": "chmod +x bin/index.js",
+    "rebuild": "npm run clean && npm run build && npm run postinstall"
   },
   "keywords": [],
   "author": "",
@@ -22,15 +26,30 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
+    "@babel/cli": "^7.25.6",
+    "@babel/core": "^7.25.2",
+    "@babel/plugin-transform-modules-commonjs": "^7.24.8",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-dynamic-import-vars": "^2.1.2",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/find-config": "^1.0.4",
+    "bun": "^1.1.27",
     "bun-types": "^1.1.26",
     "husky": "^9.1.5",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
+    "rimraf": "^5.0.10",
+    "rollup": "^4.21.2",
+    "tslib": "^2.7.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "bun": "^1.1.27",
+    "@inquirer/prompts": "^5.5.0",
     "find-config": "^1.0.0",
     "word-wrap": "^1.2.5"
   }

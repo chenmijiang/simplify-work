@@ -10,7 +10,7 @@ import {
   checkUncommittedChanges,
   createAndSwitchBranch,
 } from "@/helper/git";
-import { SW } from "@/types";
+import SW from "@/types";
 
 /**
  * generateBranchName

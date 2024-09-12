@@ -1,5 +1,5 @@
 import { input } from "@inquirer/prompts";
-import { SW } from "@/types";
+import SW from "@/types";
 import fs from "fs";
 import path from "path";
 
@@ -25,7 +25,7 @@ const main: SW.ExecBashFunction = async () => {
     throw new Error(`File ${pluginFilePath} already exists.`);
   }
 
-  const content = `import { SW } from "@/types";\n\nconst main: SW.ExecBashFunction = async () => {\n  console.info("todo implement ${pluginName}");\n};\n\nexport default main;\n`;
+  const content = `import SW from "@/types";\n\nconst main: SW.ExecBashFunction = async () => {\n  console.info("todo implement ${pluginName}");\n};\n\nexport default main;\n`;
   fs.writeFileSync(pluginFilePath, content, "utf8");
   console.log(`Plugin file created successfully at ${pluginPath}`);
 };

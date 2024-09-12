@@ -1,4 +1,5 @@
-import { SW } from "@/types";
+import SW from "@/types";
+import * as prompts from "@inquirer/prompts";
 import formatCommitMessage from "./build-commit";
 
 interface Question {
@@ -108,12 +109,15 @@ async function buildAndExecQuestions(
       message = message(answers);
     }
 
-    await import(`@inquirer/prompts`).then(({ [type]: prompt }) => {
+    // 获取对应的提示函数
+    const prompt = prompts[type];
+    if (prompt) {
       // @ts-ignore
-      return prompt({ message, ...rest }).then((answer) => {
-        answers[question.name] = answer;
-      });
-    });
+      const answer = await prompt({ message, ...rest });
+      answers[question.name] = answer;
+    } else {
+      throw new Error(`Unknown prompt type: ${type}`);
+    }
   }
 
   return answers;
