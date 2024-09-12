@@ -1,6 +1,6 @@
 {
   "name": "simplify-work",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "simplify work progress",
   "main": "bin/index.js",
   "bin": {
@@ -20,7 +20,7 @@
     "rebuild": "npm run clean && npm run build && npm run postinstall"
   },
   "keywords": [],
-  "author": "",
+  "author": "chenmijiang <jack.chenyuana@gmail.com>",
   "license": "ISC",
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
