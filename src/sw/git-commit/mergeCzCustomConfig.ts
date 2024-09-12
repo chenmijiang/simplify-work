@@ -1,5 +1,5 @@
 import { Separator } from "@inquirer/prompts";
-import { SW } from "@/types";
+import SW from "@/types";
 
 export const mergeCzCustomConfig = (czCustom: SW.CzCustom): SW.CzCustom => {
   const messages = czCustom.messages || {};

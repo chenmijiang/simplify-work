@@ -1,4 +1,4 @@
-import { SW } from "./src/types";
+import SW from "./src/types";
 
 const config: SW.Config = {
   operation: {

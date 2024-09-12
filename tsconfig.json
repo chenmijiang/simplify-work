@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    // "declaration": true,
-    // "declarationMap": true,
-    // "declarationDir": "./dist/types",
+    "declaration": true,
+    "declarationDir": "dist/types",
     "sourceMap": true,
     "module": "ESNext",
     "target": "ESNext",
@@ -15,6 +14,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", ".sw-config.ts", "rollup.config.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "types/**/*", ".sw-config.ts", "rollup.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }

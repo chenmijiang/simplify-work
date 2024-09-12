@@ -4,23 +4,26 @@ import json from "@rollup/plugin-json";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import dynamicImportVars from "@rollup/plugin-dynamic-import-vars";
+import dts from "rollup-plugin-dts";
 import { defineConfig } from "rollup";
 
 export default defineConfig([
   {
     input: "src/index.ts",
-    output: [
-      {
-        dir: "dist/esm",
-        format: "esm",
-        sourcemap: true,
-      },
-      {
-        dir: "dist/cjs",
-        format: "cjs",
-        sourcemap: true,
-      },
-    ],
+    output: {
+      dir: "dist",
+      format: "esm",
+    },
+    // output: [
+    //   {
+    //     dir: "dist/esm",
+    //     format: "esm",
+    //   },
+    //   {
+    //     dir: "dist/cjs",
+    //     format: "cjs",
+    //   },
+    // ],
     plugins: [
       json(),
       resolve(),
@@ -29,7 +32,7 @@ export default defineConfig([
       }),
       dynamicImportVars(),
       typescript({
-        tsconfig: "./tsconfig.json",
+        tsconfig: "tsconfig.json",
       }),
       babel({
         babelHelpers: "bundled",
@@ -37,5 +40,13 @@ export default defineConfig([
         exclude: "node_modules/**",
       }),
     ],
+    external: ["@inquirer/prompts", "find-config"],
+  },
+  {
+    input: "dist/types/src/types.d.ts", // 类型声明入口文件
+    output: {
+      file: "dist/types/index.d.ts", // 输出的类型声明文件
+    },
+    plugins: [dts()],
   },
 ]);
