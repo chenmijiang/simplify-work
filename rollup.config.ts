@@ -3,7 +3,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import dynamicImportVars from "@rollup/plugin-dynamic-import-vars";
 import typescript from "@rollup/plugin-typescript";
 import babel from "@rollup/plugin-babel";
-// import terser from "@rollup/plugin-terser";
+import terser from "@rollup/plugin-terser";
 import { defineConfig } from "rollup";
 
 export default defineConfig([
@@ -27,7 +27,7 @@ export default defineConfig([
         babelHelpers: "bundled",
         exclude: "node_modules/**",
       }),
-      // terser(),
+      terser(),
     ],
     external: ["@inquirer/prompts", "find-config", "fs", "path"],
   },

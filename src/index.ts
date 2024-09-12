@@ -8,11 +8,11 @@ async function main() {
     /**
      * @description get custom config
      */
-    const customConfig = await getCustomConfig();
+    // const customConfig = await getCustomConfig();
     /**
      * @description merge config
      */
-    const newConfig = mergeConfig(customConfig, defaultConfig);
+    const newConfig = mergeConfig(null, defaultConfig);
     /**
      * @description select operation type
      */

@@ -7,13 +7,17 @@
     "simplify-work": "bin/index.js",
     "s-work": "bin/index.js"
   },
+  "files": [
+    "bin/"
+  ],
   "scripts": {
     "test": "echo \"no test specified\"",
     "prepare": "husky",
     "dev": "bun ./src/index.ts",
     "clean": "rimraf bin",
     "build": "rollup -c rollup.config.ts --configPlugin typescript",
-    "rebuild": "npm run clean && npm run build"
+    "postinstall": "chmod +x bin/index.js",
+    "rebuild": "npm run clean && npm run build && npm run postinstall"
   },
   "keywords": [],
   "author": "",
@@ -30,8 +34,8 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-dynamic-import-vars": "^2.1.2",
-    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/find-config": "^1.0.4",
     "bun": "^1.1.27",
@@ -41,7 +45,6 @@
     "prettier": "^3.3.3",
     "rimraf": "^5.0.10",
     "rollup": "^4.21.2",
-    "rollup-plugin-dts": "^6.1.1",
     "tslib": "^2.7.0",
     "typescript": "^5.5.4"
   },
