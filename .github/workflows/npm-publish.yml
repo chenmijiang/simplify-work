@@ -49,8 +49,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: semantic-release
+      - name: Publish package
+        run: npm publish
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
