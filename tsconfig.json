@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "dist/types",
-    "sourceMap": true,
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "node",
