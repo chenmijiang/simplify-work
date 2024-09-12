@@ -22,7 +22,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Clean project
         run: npm run clean
@@ -31,7 +31,12 @@ jobs:
         run: npm run build
 
       - name: Set executable permissions
-        run: npm run postinstall
+        run: |
+          if [ -f ./bin/index.js ]; then
+            chmod +x bin/index.js
+          else
+            echo "File ./bin/index.js not found"
+          fi
 
       - name: Test
         run: npm test
@@ -50,7 +55,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Publish package
         run: npm publish

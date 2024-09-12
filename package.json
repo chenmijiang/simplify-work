@@ -15,13 +15,19 @@
     "prepare": "husky",
     "dev": "bun ./src/index.ts",
     "clean": "rimraf bin",
+    "semantic-release": "semantic-release",
     "build": "rollup -c rollup.config.ts --configPlugin typescript",
     "postinstall": "chmod +x bin/index.js",
     "rebuild": "npm run clean && npm run build && npm run postinstall"
   },
   "keywords": [],
   "author": "chenmijiang <jack.chenyuana@gmail.com>",
-  "license": "ISC",
+  "homepage": "https://github.com/chenmijiang/simplify-work",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chenmijiang/simplify-work.git"
+  },
+  "license": "MIT",
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
   },
@@ -45,6 +51,7 @@
     "prettier": "^3.3.3",
     "rimraf": "^5.0.10",
     "rollup": "^4.21.2",
+    "semantic-release": "^22.0.12",
     "tslib": "^2.7.0",
     "typescript": "^5.5.4"
   },
