@@ -33,7 +33,7 @@ jobs:
       - name: Set executable permissions
         run: |
           if [ -f ./bin/index.js ]; then
-            chmod +x bin/index.js
+            chmod +x ./bin/index.js
           else
             echo "File ./bin/index.js not found"
           fi
