@@ -24,8 +24,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run rebuild script
-        run: npm run rebuild
+      - name: Clean project
+        run: npm run clean
+
+      - name: Build project
+        run: npm run build
+
+      - name: Set executable permissions
+        run: npm run postinstall
 
       - name: Test
         run: npm test
@@ -50,4 +56,3 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
-
