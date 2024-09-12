@@ -4,11 +4,12 @@
 name: Node.js Package
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
 
 jobs:
-  build:
+  build_and_publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,36 +21,27 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: https://registry.npmjs.org/
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install and Build
+        run: |
+          npm ci
+          npm run build
 
-      - name: Clean project
-        run: npm run clean
-
-      - name: Build project
-        run: npm run build
+      - name: Set executable permissions
+        run: |
+          if [ -f ./bin/index.js ]; then
+            chmod +x ./bin/index.js
+          else
+            echo "No bin/index.js found"
+          fi
 
       # - name: Test
       #   run: npm test
 
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          registry-url: https://registry.npmjs.org/
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Publish package
-        run: npm publish
+      # 执行 semantic-release 发布包
+      - name: Release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
