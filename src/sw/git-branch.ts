@@ -19,7 +19,7 @@ function generateBranchName(customName: string = ""): string {
   const randomDigits = Math.random().toString(36).slice(2).slice(0, 16);
   // format: YYYYMMDD
   const date = new Date().toISOString().split("T")[0].replace(/-/g, "");
-  return `sprint-${randomDigits}${date}${customName ? `-${customName}` : ""}`;
+  return `sprint${customName ? `-${customName}` : ""}-${randomDigits}${date}`;
 }
 
 /**
