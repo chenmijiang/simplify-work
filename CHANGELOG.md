@@ -1,3 +1,9 @@
+# [0.2.0-beta.3](https://github.com/chenmijiang/simplify-work/compare/v0.2.0-beta.2...v0.2.0-beta.3) (2024-09-17)
+
+### Bug Fixes
+
+- 优化配置合并逻辑 ([ebf2afd](https://github.com/chenmijiang/simplify-work/commit/ebf2afd79f4037a6696b195ba0a9d96fb8da6aa9))
+
 # [0.2.0-beta.2](https://github.com/chenmijiang/simplify-work/compare/v0.2.0-beta.1...v0.2.0-beta.2) (2024-09-17)
 
 ### Bug Fixes
