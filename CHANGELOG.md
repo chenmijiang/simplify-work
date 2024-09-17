@@ -1,3 +1,9 @@
+# [0.2.0-beta.2](https://github.com/chenmijiang/simplify-work/compare/v0.2.0-beta.1...v0.2.0-beta.2) (2024-09-17)
+
+### Bug Fixes
+
+- 默认配置匹配 ([9b0ba4f](https://github.com/chenmijiang/simplify-work/commit/9b0ba4fffaaef9d04869d00ff3991ae1c70adc88))
+
 # [0.2.0-beta.1](https://github.com/chenmijiang/simplify-work/compare/v0.1.3...v0.2.0-beta.1) (2024-09-17)
 
 ### Features
