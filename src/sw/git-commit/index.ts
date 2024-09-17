@@ -5,11 +5,11 @@ import formatCommitMessage from "./build-commit";
 import { mergeCzCustomConfig } from "./mergeCzCustomConfig";
 import buildAndExecQuestions from "./questions";
 
-const main: SW.ExecBashFunction = async (config) => {
+const main: SW.ExecBashFunction<SW.CzCustom> = async (config) => {
   // if no staged changes, exit
   await hasStagedChanges();
 
-  const czCustomConfig = mergeCzCustomConfig(config["git-commit"]);
+  const czCustomConfig = mergeCzCustomConfig(config);
 
   const answers = await buildAndExecQuestions(czCustomConfig);
   const confirmCommit = answers.confirmCommit;

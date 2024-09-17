@@ -39,7 +39,7 @@ async function main() {
     }
 
     // Execute the logic in the imported module
-    await operation(newConfig);
+    await operation(newConfig.plugins[path], newConfig);
   } catch (error: unknown) {
     errorHandler(error);
   }

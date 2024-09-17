@@ -77,17 +77,31 @@ namespace SW {
     breaklineChar?: string;
   }
 
+  export interface BranchConfig {
+    default: string;
+    branch: {
+      name: string;
+      value: string;
+    }[];
+  }
+
   /**
    * @description config
    */
   export interface Config {
     operation: Operation;
-    "git-commit": CzCustom;
+    plugins: {
+      "git-commit": CzCustom;
+      "git-branch": BranchConfig;
+    };
   }
   /**
    * @description execute function type
    */
-  export type ExecBashFunction = (config?: Config) => Promise<void>;
+  export type ExecBashFunction<T = any> = (
+    config?: T,
+    AllConfig?: Config,
+  ) => Promise<void>;
 }
 
 export default SW;
