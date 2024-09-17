@@ -79,7 +79,7 @@ namespace SW {
 
   export interface BranchConfig {
     default: string;
-    branch: {
+    choices: {
       name: string;
       value: string;
     }[];

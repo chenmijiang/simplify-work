@@ -27,7 +27,7 @@ export default defineConfig([
         babelHelpers: "bundled",
         exclude: "node_modules/**",
       }),
-      // terser(),
+      terser(),
     ],
     external: ["@inquirer/prompts", "cosmiconfig", "fs", "path", "os"],
   },

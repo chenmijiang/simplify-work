@@ -133,7 +133,7 @@
     },
     "git-branch": {
       "default": "main",
-      "branch": [
+      "choices": [
         {
           "name": "main",
           "value": "main"

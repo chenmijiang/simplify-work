@@ -23,8 +23,6 @@ async function getPackageDir() {
   const currentDir = __dirname;
 
   const packageRoot = await getPackageRootDir(currentDir);
-  console.log(`Package root directory: ${packageRoot}`);
-
   return packageRoot;
 }
 
@@ -62,6 +60,22 @@ export async function getDefaultConfig(): Promise<SW.Config> {
 }
 
 /**
+ * merge choices
+ * @param defaultChoices
+ * @param customChoices
+ * @returns
+ */
+function mergeChoices(defaultChoices: any[], customChoices: any[]): any[] {
+  const choiceMap = new Map();
+
+  defaultChoices.forEach((choice) => choiceMap.set(choice.value, choice));
+
+  customChoices.forEach((choice) => choiceMap.set(choice.value, choice));
+
+  return Array.from(choiceMap.values());
+}
+
+/**
  * merge config
  *
  * @param customConfig
@@ -77,38 +91,31 @@ export function mergeConfig(
     return defaultConfig;
   }
 
-  // @ts-ignore
-  const mergedConfig: SW.Config = {};
+  function deepMerge(custCon: any, defaultCon: any): any {
+    const result = { ...custCon };
 
-  for (const key in defaultConfig) {
-    if (defaultConfig.hasOwnProperty(key)) {
-      const defaultValue = defaultConfig[key];
-      const customValue = customConfig[key];
-
-      if (key === "plugins") {
-        mergedConfig[key] = {
-          ...defaultValue,
-          ...customValue,
-        };
-      }
-
-      if (customValue !== undefined) {
-        mergedConfig[key] = customValue;
-      } else {
-        mergedConfig[key] = defaultValue;
+    for (const key in defaultCon) {
+      if (defaultCon.hasOwnProperty(key)) {
+        if (
+          typeof defaultCon[key] === "object" &&
+          defaultCon[key] !== null &&
+          !Array.isArray(defaultCon[key])
+        ) {
+          result[key] = deepMerge(result[key] || {}, defaultCon[key]);
+        } else if (Array.isArray(defaultCon[key])) {
+          result[key] = result[key] ?? defaultCon[key];
+          // if (key === "choices") {
+          //   result[key] = mergeChoices(result[key] || [], defaultCon[key]);
+          // } else {
+          //   result[key] = [...(result[key] || []), ...defaultCon[key]];
+          // }
+        } else {
+          result[key] = defaultCon[key];
+        }
       }
     }
+    return result;
   }
 
-  // // enable customConfig to have additional properties
-  // for (const key in customConfig) {
-  //   if (
-  //     customConfig.hasOwnProperty(key) &&
-  //     !defaultConfig.hasOwnProperty(key)
-  //   ) {
-  //     mergedConfig[key] = customConfig[key];
-  //   }
-  // }
-
-  return mergedConfig;
+  return deepMerge(customConfig, defaultConfig);
 }

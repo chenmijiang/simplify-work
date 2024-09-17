@@ -52,7 +52,7 @@ const main: SW.ExecBashFunction<SW.BranchConfig> = async (config) => {
   const baseMaster = await select({
     message: "Select a base branch to create a new branch:",
     default: config.default,
-    choices: config.branch,
+    choices: config.choices,
   });
   // 是否拉取远程分支，默认是
   const isPull = await confirm({
