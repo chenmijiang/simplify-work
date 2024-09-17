@@ -1,5 +1,32 @@
 import SW from "@/types";
 import { cosmiconfig } from "cosmiconfig";
+import path from "path";
+import fs from "fs/promises";
+
+async function getPackageRootDir(currentDir: string): Promise<string> {
+  let dir = currentDir;
+
+  while (dir !== path.dirname(dir)) {
+    const packageJsonPath = path.join(dir, "package.json");
+    try {
+      await fs.access(packageJsonPath);
+      return dir;
+    } catch {
+      dir = path.dirname(dir);
+    }
+  }
+
+  throw new Error("Cannot find package root directory.");
+}
+
+async function getPackageDir() {
+  const currentDir = __dirname;
+
+  const packageRoot = await getPackageRootDir(currentDir);
+  console.log(`Package root directory: ${packageRoot}`);
+
+  return packageRoot;
+}
 
 const explorer = cosmiconfig("sw", {
   stopDir: require("os").homedir(),
@@ -24,7 +51,13 @@ export async function getCustomConfig(): Promise<SW.Config | null> {
  * @returns {SW.Config}
  */
 export async function getDefaultConfig(): Promise<SW.Config> {
-  const result = await explorer.load(".swrc.json");
+  const rootDir = await getPackageDir();
+  if (!rootDir) {
+    throw new Error("Could not find package root directory");
+  }
+
+  const configPath = path.join(rootDir, ".swrc.json");
+  const result = await explorer.load(configPath);
   return result.config as SW.Config;
 }
 
