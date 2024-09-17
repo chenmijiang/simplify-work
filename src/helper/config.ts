@@ -52,6 +52,13 @@ export function mergeConfig(
       const defaultValue = defaultConfig[key];
       const customValue = customConfig[key];
 
+      if (key === "plugins") {
+        mergedConfig[key] = {
+          ...defaultValue,
+          ...customValue,
+        };
+      }
+
       if (customValue !== undefined) {
         mergedConfig[key] = customValue;
       } else {
@@ -60,15 +67,15 @@ export function mergeConfig(
     }
   }
 
-  // enable customConfig to have additional properties
-  for (const key in customConfig) {
-    if (
-      customConfig.hasOwnProperty(key) &&
-      !defaultConfig.hasOwnProperty(key)
-    ) {
-      mergedConfig[key] = customConfig[key];
-    }
-  }
+  // // enable customConfig to have additional properties
+  // for (const key in customConfig) {
+  //   if (
+  //     customConfig.hasOwnProperty(key) &&
+  //     !defaultConfig.hasOwnProperty(key)
+  //   ) {
+  //     mergedConfig[key] = customConfig[key];
+  //   }
+  // }
 
   return mergedConfig;
 }

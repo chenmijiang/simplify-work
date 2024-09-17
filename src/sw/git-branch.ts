@@ -28,7 +28,7 @@ function generateBranchName(customName: string = ""): string {
  * 4. 本地开发分支命名规则：sprint-(随机16位数字字符串+日期)-(可选，自定义分支名称)
  * 5. 根据本地 master/main 分支创建新的开发分支，并切换到该分支
  */
-const main: SW.ExecBashFunction = async () => {
+const main: SW.ExecBashFunction<SW.BranchConfig> = async (config) => {
   // check git installation
   await checkGitInstallation();
   // check uncommitted changes
@@ -51,11 +51,8 @@ const main: SW.ExecBashFunction = async () => {
   // 选择基线分支，select：main/master
   const baseMaster = await select({
     message: "Select a base branch to create a new branch:",
-    default: "main",
-    choices: [
-      { name: "main", value: "main" },
-      { name: "master", value: "master" },
-    ],
+    default: config.default,
+    choices: config.branch,
   });
   // 是否拉取远程分支，默认是
   const isPull = await confirm({
