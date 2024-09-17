@@ -1,14 +1,31 @@
 import SW from "@/types";
-import findConfig from "find-config";
+import { cosmiconfig } from "cosmiconfig";
+
+const explorer = cosmiconfig("sw", {
+  stopDir: require("os").homedir(),
+  searchPlaces: [".swrc", ".swrc.json", ".swrc.js"],
+});
 
 /**
  * get custom config
  * @returns {SW.Config}
  */
-export async function getCustomConfig(
-  SW_CONFIG_NAME = ".sw-config.ts",
-): Promise<SW.Config | null> {
-  return findConfig.require(SW_CONFIG_NAME, { home: false });
+export async function getCustomConfig(): Promise<SW.Config | null> {
+  const result = await explorer.search();
+
+  if (result) {
+    return result.config as SW.Config;
+  }
+  return null;
+}
+
+/**
+ * get default config
+ * @returns {SW.Config}
+ */
+export async function getDefaultConfig(): Promise<SW.Config> {
+  const result = await explorer.load(".swrc.json");
+  return result.config as SW.Config;
 }
 
 /**
