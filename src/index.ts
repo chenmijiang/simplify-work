@@ -1,18 +1,20 @@
 import { select } from "@inquirer/prompts";
 import errorHandler from "@/helper/errorHandler";
-import { getCustomConfig, mergeConfig } from "@/helper/config";
-import defaultConfig from ".sw-config";
+import {
+  getCustomConfig,
+  getDefaultConfig,
+  mergeConfig,
+} from "@/helper/config";
 
 async function main() {
   try {
     /**
-     * @description get custom config
-     */
-    // const customConfig = await getCustomConfig();
-    /**
      * @description merge config
      */
-    const newConfig = mergeConfig(null, defaultConfig);
+    const newConfig = mergeConfig(
+      await getCustomConfig(),
+      await getDefaultConfig(),
+    );
     /**
      * @description select operation type
      */
