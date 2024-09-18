@@ -60,22 +60,6 @@ export async function getDefaultConfig(): Promise<SW.Config> {
 }
 
 /**
- * merge choices
- * @param defaultChoices
- * @param customChoices
- * @returns
- */
-function mergeChoices(defaultChoices: any[], customChoices: any[]): any[] {
-  const choiceMap = new Map();
-
-  defaultChoices.forEach((choice) => choiceMap.set(choice.value, choice));
-
-  customChoices.forEach((choice) => choiceMap.set(choice.value, choice));
-
-  return Array.from(choiceMap.values());
-}
-
-/**
  * merge config
  *
  * @param customConfig
@@ -83,39 +67,78 @@ function mergeChoices(defaultChoices: any[], customChoices: any[]): any[] {
  * @returns {SW.Config}
  */
 export function mergeConfig(
-  customConfig: SW.Config | null,
+  customConfig: Partial<SW.Config> | null,
   defaultConfig: SW.Config,
 ): SW.Config {
-  // if customConfig is null, return defaultConfig
+  // 如果 customConfig 为空，返回 defaultConfig
   if (!customConfig) {
     return defaultConfig;
   }
 
-  function deepMerge(custCon: any, defaultCon: any): any {
-    const result = { ...custCon };
+  const mergedConfig: SW.Config = { ...defaultConfig };
 
-    for (const key in defaultCon) {
-      if (defaultCon.hasOwnProperty(key)) {
-        if (
-          typeof defaultCon[key] === "object" &&
-          defaultCon[key] !== null &&
-          !Array.isArray(defaultCon[key])
-        ) {
-          result[key] = deepMerge(result[key] || {}, defaultCon[key]);
-        } else if (Array.isArray(defaultCon[key])) {
-          result[key] = result[key] ?? defaultCon[key];
-          // if (key === "choices") {
-          //   result[key] = mergeChoices(result[key] || [], defaultCon[key]);
-          // } else {
-          //   result[key] = [...(result[key] || []), ...defaultCon[key]];
-          // }
-        } else {
-          result[key] = defaultCon[key];
-        }
-      }
-    }
-    return result;
+  function mergeArray(customArray: any[], defaultArray: any[]): any[] {
+    const mergedMap = new Map();
+
+    defaultArray.forEach((item) => mergedMap.set(JSON.stringify(item), item));
+    customArray.forEach((item) => mergedMap.set(JSON.stringify(item), item));
+
+    return Array.from(mergedMap.values());
   }
 
-  return deepMerge(customConfig, defaultConfig);
+  const handleValue = (source: any, target: any) => {
+    const mergedValue = { ...target };
+    for (const key in target) {
+      const customValue = source[key] ?? [];
+      const defaultValue = target[key];
+
+      if (Array.isArray(defaultValue)) {
+        const overwriteKey = `overwrite${key[0].toUpperCase()}${key.slice(1)}`;
+        const overwriteValue: boolean = !!source[overwriteKey];
+
+        mergedValue[key] = overwriteValue
+          ? customValue
+          : mergeArray(customValue, defaultValue);
+      } else {
+        mergedValue[key] = customValue ?? defaultValue;
+      }
+    }
+    return mergedValue;
+  };
+
+  const handlePlugins = (
+    customPlugins: any,
+    defaultPlugins: SW.Config["plugins"],
+  ): SW.Config["plugins"] => {
+    const mergedPlugins: SW.Config["plugins"] = { ...defaultPlugins };
+
+    for (const key in customPlugins) {
+      const customPlugin = customPlugins[key];
+      const defaultPlugin = defaultPlugins[key];
+
+      mergedPlugins[key] = defaultPlugin
+        ? handleValue(customPlugin, defaultPlugin)
+        : customPlugin;
+    }
+
+    return mergedPlugins;
+  };
+
+  const customHandlerMap = {
+    operation: handleValue,
+    plugins: handlePlugins,
+  };
+
+  for (const key in customConfig) {
+    const customValue = customConfig[key];
+    const defaultValue = defaultConfig[key];
+
+    if (key in customHandlerMap) {
+      mergedConfig[key] = customHandlerMap[key](customValue, defaultValue);
+    } else {
+      mergedConfig[key] = customValue ?? defaultValue;
+    }
+  }
+
+  return mergedConfig;
 }
