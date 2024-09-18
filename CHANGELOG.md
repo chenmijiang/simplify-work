@@ -1,3 +1,13 @@
+# [0.2.0-beta.5](https://github.com/chenmijiang/simplify-work/compare/v0.2.0-beta.4...v0.2.0-beta.5) (2024-09-18)
+
+### Bug Fixes
+
+- 发布缺少文件.swrc.js[#6](https://github.com/chenmijiang/simplify-work/issues/6) ([2789390](https://github.com/chenmijiang/simplify-work/commit/2789390104320101055d1517dc7162b6916548a9))
+
+### Performance Improvements
+
+- 优化workflow触发时机[#6](https://github.com/chenmijiang/simplify-work/issues/6) ([83e4a8e](https://github.com/chenmijiang/simplify-work/commit/83e4a8ec66f430895a1a5c600bbdc09d98657f5d))
+
 # [0.2.0-beta.4](https://github.com/chenmijiang/simplify-work/compare/v0.2.0-beta.3...v0.2.0-beta.4) (2024-09-18)
 
 ### Features
