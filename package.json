@@ -10,7 +10,7 @@
   "types": "./types.d.ts",
   "files": [
     "bin/",
-    ".swrc.json",
+    ".swrc.js",
     "types.d.ts"
   ],
   "scripts": {
