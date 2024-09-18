@@ -17,7 +17,6 @@ export default defineConfig([
     plugins: [
       resolve(),
       commonjs({
-        // ignoreDynamicRequires: false,
         include: /node_modules/,
         sourceMap: false,
       }),
@@ -28,6 +27,23 @@ export default defineConfig([
         exclude: "node_modules/**",
       }),
       terser(),
+    ],
+    external: ["@inquirer/prompts", "cosmiconfig", "fs", "path", "os"],
+  },
+  {
+    input: "src/types.ts",
+    output: {
+      file: "./types.d.ts",
+      format: "es",
+    },
+    plugins: [
+      resolve(),
+      commonjs(),
+      typescript({
+        declaration: true,
+        declarationDir: "./",
+        include: ["src/types.ts"],
+      }),
     ],
     external: ["@inquirer/prompts", "cosmiconfig", "fs", "path", "os"],
   },
