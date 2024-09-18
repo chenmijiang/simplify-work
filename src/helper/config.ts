@@ -54,7 +54,7 @@ export async function getDefaultConfig(): Promise<SW.Config> {
     throw new Error("Could not find package root directory");
   }
 
-  const configPath = path.join(rootDir, ".swrc.json");
+  const configPath = path.join(rootDir, ".swrc.js");
   const result = await explorer.load(configPath);
   return result.config as SW.Config;
 }

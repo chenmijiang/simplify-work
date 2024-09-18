@@ -5,3 +5,4 @@ bin
 types
 
 -lock.*
+types.d.ts
