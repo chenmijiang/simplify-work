@@ -1,5 +1,7 @@
+import logger from "./logger";
+
 function errorHandler(error) {
-  console.error("An error occurred:", error.message);
+  logger.error("An error occurred:", error.message);
   // Exit the process with an error code
   process.exit(1);
 }

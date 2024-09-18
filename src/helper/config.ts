@@ -1,39 +1,19 @@
 import SW from "@/types";
-import { cosmiconfig } from "cosmiconfig";
+import { cosmiconfig, Options, PublicExplorer } from "cosmiconfig";
 import path from "path";
-import fs from "fs/promises";
+import { getPackageDir } from "./commons";
 
-async function getPackageRootDir(currentDir: string): Promise<string> {
-  let dir = currentDir;
-
-  while (dir !== path.dirname(dir)) {
-    const packageJsonPath = path.join(dir, "package.json");
-    try {
-      await fs.access(packageJsonPath);
-      return dir;
-    } catch {
-      dir = path.dirname(dir);
-    }
-  }
-
-  throw new Error("Cannot find package root directory.");
-}
-
-async function getPackageDir() {
-  const currentDir = __dirname;
-
-  const packageRoot = await getPackageRootDir(currentDir);
-  return packageRoot;
-}
-
-const explorer = cosmiconfig("sw", {
+const ExplorerName = "sw";
+const ExplorerOptions: Readonly<Partial<Options>> = {
   stopDir: require("os").homedir(),
   searchPlaces: [".swrc", ".swrc.json", ".swrc.js"],
-});
+};
+const explorer: PublicExplorer = cosmiconfig(ExplorerName, ExplorerOptions);
+
+export const DefaultConfigFileName = ".swrc.js";
 
 /**
  * get custom config
- * @returns {SW.Config}
  */
 export async function getCustomConfig(): Promise<SW.Config | null> {
   const result = await explorer.search();
@@ -46,7 +26,6 @@ export async function getCustomConfig(): Promise<SW.Config | null> {
 
 /**
  * get default config
- * @returns {SW.Config}
  */
 export async function getDefaultConfig(): Promise<SW.Config> {
   const rootDir = await getPackageDir();
@@ -54,75 +33,81 @@ export async function getDefaultConfig(): Promise<SW.Config> {
     throw new Error("Could not find package root directory");
   }
 
-  const configPath = path.join(rootDir, ".swrc.js");
+  const configPath = path.join(rootDir, DefaultConfigFileName);
   const result = await explorer.load(configPath);
   return result.config as SW.Config;
 }
 
 /**
+ * merge array, remove duplicate elements
+ */
+export function mergeArray(customArray: any[], defaultArray: any[]): any[] {
+  const mergedMap = new Map();
+
+  defaultArray.forEach((item) => mergedMap.set(JSON.stringify(item), item));
+  customArray.forEach((item) => mergedMap.set(JSON.stringify(item), item));
+
+  return Array.from(mergedMap.values());
+}
+
+/**
+ * handle value, merge custom value and default value
+ */
+export function handleValue(source: any, target: any) {
+  const mergedValue = { ...target };
+  for (const key in target) {
+    const customValue = source[key] ?? [];
+    const defaultValue = target[key];
+
+    if (Array.isArray(defaultValue)) {
+      const overwriteKey = `overwrite${key[0].toUpperCase()}${key.slice(1)}`;
+      const overwriteValue: boolean = !!source[overwriteKey];
+
+      mergedValue[key] = overwriteValue
+        ? customValue
+        : mergeArray(customValue, defaultValue);
+    } else {
+      mergedValue[key] = customValue ?? defaultValue;
+    }
+  }
+  return mergedValue;
+}
+
+/**
+ * handle plugins, merge custom plugins and default plugins
+ */
+export function handlePlugins(
+  customPlugins: any,
+  defaultPlugins: SW.Config["plugins"],
+): SW.Config["plugins"] {
+  const mergedPlugins: SW.Config["plugins"] = { ...defaultPlugins };
+
+  // assign custom plugins to merged plugins
+  for (const key in customPlugins) {
+    const customPlugin = customPlugins[key];
+    const defaultPlugin = defaultPlugins[key];
+
+    mergedPlugins[key] = defaultPlugin
+      ? handleValue(customPlugin, defaultPlugin)
+      : customPlugin;
+  }
+
+  return mergedPlugins;
+}
+
+/**
  * merge config
- *
- * @param customConfig
- * @param defaultConfig
- * @returns {SW.Config}
  */
 export function mergeConfig(
   customConfig: Partial<SW.Config> | null,
   defaultConfig: SW.Config,
 ): SW.Config {
-  // 如果 customConfig 为空，返回 defaultConfig
+  // if custom config is not exist, return default config
   if (!customConfig) {
     return defaultConfig;
   }
 
   const mergedConfig: SW.Config = { ...defaultConfig };
-
-  function mergeArray(customArray: any[], defaultArray: any[]): any[] {
-    const mergedMap = new Map();
-
-    defaultArray.forEach((item) => mergedMap.set(JSON.stringify(item), item));
-    customArray.forEach((item) => mergedMap.set(JSON.stringify(item), item));
-
-    return Array.from(mergedMap.values());
-  }
-
-  const handleValue = (source: any, target: any) => {
-    const mergedValue = { ...target };
-    for (const key in target) {
-      const customValue = source[key] ?? [];
-      const defaultValue = target[key];
-
-      if (Array.isArray(defaultValue)) {
-        const overwriteKey = `overwrite${key[0].toUpperCase()}${key.slice(1)}`;
-        const overwriteValue: boolean = !!source[overwriteKey];
-
-        mergedValue[key] = overwriteValue
-          ? customValue
-          : mergeArray(customValue, defaultValue);
-      } else {
-        mergedValue[key] = customValue ?? defaultValue;
-      }
-    }
-    return mergedValue;
-  };
-
-  const handlePlugins = (
-    customPlugins: any,
-    defaultPlugins: SW.Config["plugins"],
-  ): SW.Config["plugins"] => {
-    const mergedPlugins: SW.Config["plugins"] = { ...defaultPlugins };
-
-    for (const key in customPlugins) {
-      const customPlugin = customPlugins[key];
-      const defaultPlugin = defaultPlugins[key];
-
-      mergedPlugins[key] = defaultPlugin
-        ? handleValue(customPlugin, defaultPlugin)
-        : customPlugin;
-    }
-
-    return mergedPlugins;
-  };
 
   const customHandlerMap = {
     operation: handleValue,
