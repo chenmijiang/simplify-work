@@ -1,3 +1,9 @@
+# [0.2.0-beta.4](https://github.com/chenmijiang/simplify-work/compare/v0.2.0-beta.3...v0.2.0-beta.4) (2024-09-18)
+
+### Features
+
+- 加载自定义插件[#6](https://github.com/chenmijiang/simplify-work/issues/6) ([ab65b8d](https://github.com/chenmijiang/simplify-work/commit/ab65b8de50d8bfd7f36192b1256841d8d21a8209))
+
 # [0.2.0-beta.3](https://github.com/chenmijiang/simplify-work/compare/v0.2.0-beta.2...v0.2.0-beta.3) (2024-09-17)
 
 ### Bug Fixes
