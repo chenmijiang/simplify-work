@@ -5,41 +5,46 @@ import {
   getDefaultConfig,
   mergeConfig,
 } from "@/helper/config";
+import { getCustomPlugin } from "@/helper/plugin";
 
 async function main() {
   try {
     /**
      * @description merge config
      */
-    const newConfig = mergeConfig(
+    const config = mergeConfig(
       await getCustomConfig(),
       await getDefaultConfig(),
     );
     /**
      * @description select operation type
      */
-    const path = await select(newConfig.operation);
+    const pluginName = await select(config.operation);
+
     // use dynamic import to load the operation file
-    let operationModule: any;
+    let operationModule: any = null;
     try {
-      operationModule = await import(`./sw/${path}.ts`);
-    } catch (error) {
+      operationModule = await import(`./plugins/${pluginName}.ts`);
+    } catch (_) {
       try {
-        operationModule = await import(`./sw/${path}/index.ts`);
-      } catch (error) {
-        throw new Error("Operation module does not exist");
+        operationModule = await import(`./plugins/${pluginName}/index.ts`);
+      } catch (_) {
+        operationModule = await getCustomPlugin(pluginName);
+        if (!operationModule) {
+          throw new Error("plugin does not exist");
+        }
       }
     }
-
-    // Validate the imported module to ensure it exports a function
-    const operation = operationModule.default || operationModule; // Try to use the default export or fallback to the module itself if default is undefined
-
-    if (typeof operation !== "function") {
-      throw new Error("Operation module does not export a default function");
+    // Try to use the default export or fallback to the module itself if default is undefined
+    const plugin = operationModule.default || operationModule;
+    if (typeof plugin !== "function") {
+      throw new Error("plugin does not export a default function");
     }
 
-    // Execute the logic in the imported module
-    await operation(newConfig.plugins[path], newConfig);
+    /**
+     * @description Execute the logic in the imported module
+     */
+    await plugin(config.plugins[pluginName], config);
   } catch (error: unknown) {
     errorHandler(error);
   }
