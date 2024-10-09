@@ -5,7 +5,7 @@ import {
   getDefaultConfig,
   mergeConfig,
 } from "@/helper/config";
-import { getCustomPlugin } from "@/helper/plugin";
+import { getContext, getCustomPlugin } from "@/helper/plugin";
 
 async function main() {
   try {
@@ -42,9 +42,14 @@ async function main() {
     }
 
     /**
+     * @description get plugin context
+     */
+    const context = getContext(config, pluginName);
+
+    /**
      * @description Execute the logic in the imported module
      */
-    await plugin(config.plugins[pluginName], config);
+    await plugin(config.plugins[pluginName], context);
   } catch (error: unknown) {
     errorHandler(error);
   }

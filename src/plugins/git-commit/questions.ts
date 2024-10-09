@@ -1,6 +1,6 @@
 import SW from "@/types";
-import * as prompts from "@inquirer/prompts";
 import formatCommitMessage from "./build-commit";
+import { prompts } from "@/helper/prompts";
 
 interface Question {
   type: "input" | "select" | "expand";

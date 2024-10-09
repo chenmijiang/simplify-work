@@ -1,5 +1,6 @@
 import { Separator, type Theme } from "@inquirer/core";
 import type { PartialDeep } from "@inquirer/type";
+import { Prompts } from "./helper/prompts";
 
 namespace SW {
   export type SelectTheme = {
@@ -85,6 +86,13 @@ namespace SW {
     }[];
   }
 
+  export interface ChangeSourceConfig {
+    [key: string]: {
+      name: string;
+      value: string;
+    }[];
+  }
+
   /**
    * @description config
    */
@@ -93,14 +101,20 @@ namespace SW {
     plugins: {
       "git-commit": CzCustom;
       "git-branch": BranchConfig;
+      "change-source": ChangeSourceConfig;
     };
+  }
+  export interface Context {
+    config: Config;
+    prompts: Prompts;
+    pluginName: string;
   }
   /**
    * @description execute function type
    */
   export type ExecBashFunction<T = any> = (
     config?: T,
-    AllConfig?: Config,
+    Context?: Context,
   ) => Promise<void>;
 }
 

@@ -24,6 +24,11 @@ const config = {
         description: "简化 git pull/merge/push/tag 操作",
       },
       {
+        name: "切换仓库源",
+        value: "change-source",
+        description: "切换仓库源",
+      },
+      {
         name: "创建新插件",
         value: "new-plugin",
         description: "创建新的插件",
@@ -82,6 +87,28 @@ const config = {
       choices: [
         { name: "main", value: "main" },
         { name: "master", value: "master" },
+      ],
+    },
+    "change-source": {
+      npm: [
+        {
+          name: "taobao: https://registry.npm.taobao.org",
+          value: "https://registry.npm.taobao.org",
+        },
+        {
+          name: "home: https://registry.npmjs.org",
+          value: "https://registry.npmjs.org",
+        },
+      ],
+      yarn: [
+        {
+          name: "taobao: https://registry.npm.taobao.org",
+          value: "https://registry.npm.taobao.org",
+        },
+        {
+          name: "npm: https://registry.npmjs.org",
+          value: "https://registry.npmjs.org",
+        },
       ],
     },
   },

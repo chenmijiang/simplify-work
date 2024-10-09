@@ -28,7 +28,7 @@ function generateBranchName(customName: string = ""): string {
  * 4. 本地开发分支命名规则：sprint-(随机16位数字字符串+日期)-(可选，自定义分支名称)
  * 5. 根据本地 master/main 分支创建新的开发分支，并切换到该分支
  */
-const main: SW.ExecBashFunction<SW.BranchConfig> = async (config) => {
+const main: SW.ExecBashFunction<SW.BranchConfig> = async (config, context) => {
   // check git installation
   await checkGitInstallation();
   // check uncommitted changes

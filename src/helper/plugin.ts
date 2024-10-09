@@ -2,6 +2,8 @@ import path from "path";
 import os from "os";
 import fs from "fs/promises";
 import { getFileFullName, getPackageRootDir, SWorkPluginDir } from "./commons";
+import SW from "@/types";
+import { prompts } from "./prompts";
 
 /**
  * load plugin
@@ -46,4 +48,15 @@ export async function getCustomPlugin(pluginName: string): Promise<any | null> {
   }
 
   return null;
+}
+
+/**
+ * get plugin context
+ */
+export function getContext(config: SW.Config, pluginName: string): SW.Context {
+  return {
+    config,
+    prompts,
+    pluginName,
+  };
 }
